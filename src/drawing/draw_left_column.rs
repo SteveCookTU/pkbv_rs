@@ -1,7 +1,7 @@
-use eframe::egui::{Context, ScrollArea, Sense, TextEdit, Ui, vec2, Vec2};
 use crate::load_bv::load_bv;
 use crate::my_app::MyApp;
 use crate::pokemon_image::PokemonImage;
+use eframe::egui::{vec2, Context, ScrollArea, Sense, TextEdit, Ui, Vec2};
 
 pub fn draw_left_column(app: &mut MyApp, ui: &mut Ui, ctx: &Context) {
     ui.vertical(|ui| {
