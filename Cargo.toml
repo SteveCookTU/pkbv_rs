@@ -1,0 +1,15 @@
+[package]
+name = "pkbv_rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+eframe = "0.17.0"
+egui_extras = {version = "0.17.0", features = ["image"]}
+image = {version = "0.24.2", default-features = false, features = ['png']}
+rfd = "0.8.2"
+time = "0.3.9"
+lazy_static = "1.4.0"
+no_std_io = {git = "https://github.com/zaksabeast/no_std_io.git"}
