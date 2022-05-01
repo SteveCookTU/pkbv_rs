@@ -9,5 +9,5 @@ fn main() {
         resizable: false,
         ..Default::default()
     };
-    eframe::run_native(Box::new(MyApp::default()), options);
+    eframe::run_native("pkBV-rs", options, Box::new(|cc| Box::new(MyApp::new(cc))));
 }

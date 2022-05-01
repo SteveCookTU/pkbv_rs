@@ -278,7 +278,7 @@ impl BVidParser {
                                 .try_into()
                                 .unwrap()
                         ),
-                        data[3 + (4 * 1)]
+                        data[3 + (4 * i)]
                     );
                     parse = format!(
                         "{}{}: {}{}",

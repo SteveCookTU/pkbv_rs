@@ -94,6 +94,7 @@ fn load_battle_info(app: &mut MyApp, bvid: &Bv6, trainers: &Vec<String>) {
     app.rm = format!("{:0<16X}", bvid.rng_seed_1());
     app.rn = format!("{:0<16X}", bvid.rng_seed_2());
     app.debug_1 = bvid.debug_1();
+    println!("{:?}", bvid.debug_1().chars().collect::<Vec<char>>());
     app.debug_2 = bvid.debug_2();
     app.recorded_at = if let Some(stamp) = bvid.match_stamp() {
         stamp.to_string()

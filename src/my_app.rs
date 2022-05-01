@@ -2,13 +2,42 @@ use crate::drawing::{draw_left_column, draw_right_column};
 use crate::load_bv::load_bv;
 use crate::pk6::Pk6;
 use crate::pokemon_image::PokemonImage;
-use eframe::egui;
-use eframe::egui::{vec2, CentralPanel, Context, ScrollArea, Sense, TextEdit, Vec2};
-use eframe::epi::{App, Frame};
+use eframe::{App, CreationContext, egui, Frame};
+use eframe::egui::{vec2, CentralPanel, Context, ScrollArea, Sense, TextEdit, Vec2, Visuals};
 use egui_extras::RetainedImage;
 use std::fs::File;
 use std::io::Read;
 
+fn setup_custom_fonts(ctx: &Context) {
+    // Start with the default fonts (we will be adding to them rather than replacing them).
+    let mut fonts = egui::FontDefinitions::default();
+
+    // Install my own font (maybe supporting non-latin characters).
+    // .ttf and .otf files supported.
+    fonts.font_data.insert(
+        "aquafont".to_owned(),
+        egui::FontData::from_static(include_bytes!("aquafont.ttf")),
+    );
+
+    // Put my font first (highest priority) for proportional text:
+    fonts
+        .families
+        .entry(egui::FontFamily::Proportional)
+        .or_default()
+        .push("aquafont".to_owned());
+
+    // Put my font as last fallback for monospace:
+    fonts
+        .families
+        .entry(egui::FontFamily::Monospace)
+        .or_default()
+        .push("aquafont".to_owned());
+
+    // Tell egui to use these fonts:
+    ctx.set_fonts(fonts);
+}
+
+#[derive(Default)]
 pub struct MyApp {
     pub(crate) pkmn_images: [Option<RetainedImage>; 12],
     pub(crate) versus_text: String,
@@ -27,6 +56,12 @@ pub struct MyApp {
 }
 
 impl MyApp {
+    pub fn new(cc: &CreationContext<'_>) -> Self {
+        setup_custom_fonts(&cc.egui_ctx);
+        cc.egui_ctx.set_visuals(Visuals::dark());
+        Self::default()
+    }
+
     pub fn reset(&mut self) {
         self.pkmn_images = [
             None, None, None, None, None, None, None, None, None, None, None, None,
@@ -47,31 +82,8 @@ impl MyApp {
     }
 }
 
-impl Default for MyApp {
-    fn default() -> Self {
-        Self {
-            pkmn_images: [
-                None, None, None, None, None, None, None, None, None, None, None, None,
-            ],
-            versus_text: "".to_string(),
-            summary_text: "test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest".to_string(),
-            instruction_text: "".to_string(),
-            recorded_at: "".to_string(),
-            uploaded_at: "".to_string(),
-            mode: "".to_string(),
-            style: "".to_string(),
-            debug_1: "".to_string(),
-            debug_2: "".to_string(),
-            ra: "".to_string(),
-            r0: "".to_string(),
-            rm: "".to_string(),
-            rn: "".to_string(),
-        }
-    }
-}
-
 impl App for MyApp {
-    fn update(&mut self, ctx: &Context, frame: &Frame) {
+    fn update(&mut self, ctx: &Context, frame: &mut Frame) {
         CentralPanel::default().show(ctx, |ui| {
             ui.horizontal(|ui| {
                 draw_left_column(self, ui, ctx);
@@ -82,9 +94,5 @@ impl App for MyApp {
 
         // Resize the native window to be just the size we need it to be:
         frame.set_window_size(ctx.used_size())
-    }
-
-    fn name(&self) -> &str {
-        "pkBV-rs"
     }
 }
