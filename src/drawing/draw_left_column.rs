@@ -133,7 +133,7 @@ pub fn draw_left_column(app: &mut MyApp, ui: &mut Ui, ctx: &Context) {
                         .frame(false),
                 );
             });
-        if ui.button("Load Images").clicked() {
+        if ui.button("Load File").clicked() {
             if let Some(path) = rfd::FileDialog::new().pick_file() {
                 load_bv(app, path);
             }
