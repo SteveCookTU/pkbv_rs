@@ -12,7 +12,7 @@ jobs:
       - run: rustup component add rustfmt
       - run: cargo fmt -- --check
 
-  build:
+  build-linux:
     runs-on: ubuntu-latest
 
     steps:
