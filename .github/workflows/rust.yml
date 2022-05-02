@@ -96,7 +96,7 @@ jobs:
           override: true
 
       - name: Build & Package
-        run: cargo build --all --release && mv target/release/pkbv_rs.exe target/release/pkbv-rs.exe && 7z a -tzip ${{ runner.OS }}.zip target/release/pkbv-rs move sprites
+        run: cargo build --all --release && mv target/release/pkbv_rs.exe target/release/pkbv-rs.exe && 7z a -tzip ${{ runner.OS }}.zip target/release/pkbv-rs.exe move sprites
 
       - name: Upload binaries to release
         uses: softprops/action-gh-release@v1
