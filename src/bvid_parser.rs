@@ -5,8 +5,8 @@ use crate::pk6::Pk6;
 use crate::rotate_direction::RotateDirection;
 use crate::turn_action_code::TurnActionCode;
 use no_std_io::{Cursor, StreamContainer, StreamReader};
-use std::fmt::{Display, Formatter};
-use std::io::BufReader;
+
+
 use pkhex_rs::game_strings::MOVES_EN;
 use pkhex_rs::LangNick;
 use crate::util::MOVE_DATA;

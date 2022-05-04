@@ -1,6 +1,6 @@
 use crate::pk6::Pk6;
 use crate::util;
-use std::fmt::{Display, Formatter};
+
 use pkhex_rs::{PK6, Pkm};
 use time::{Date, Month, PrimitiveDateTime, Time};
 

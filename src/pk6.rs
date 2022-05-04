@@ -1,6 +1,6 @@
-use crate::util;
+
 use std::fmt::{Display, Formatter};
-use std::ops::Deref;
+
 use pkhex_rs::game_strings::{ABILITIES_EN, ITEMS_EN, MOVES_EN, NATURES_EN, SPECIES_EN};
 use pkhex_rs::{Pkm, SpeciesForm};
 

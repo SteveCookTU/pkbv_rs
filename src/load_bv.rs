@@ -5,7 +5,7 @@ use crate::bvid_parser::BVidParser;
 use crate::my_app::MyApp;
 use crate::pk6::Pk6;
 use crate::util;
-use eframe::egui::Key::P;
+
 use egui_extras::RetainedImage;
 use std::fs::File;
 use std::io::Read;

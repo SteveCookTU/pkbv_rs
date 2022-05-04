@@ -1,6 +1,6 @@
 use crate::my_app::MyApp;
-use crate::pokemon_image::PokemonImage;
-use eframe::egui::{Context, Grid, ScrollArea, TextEdit, Ui};
+
+use eframe::egui::{ScrollArea, TextEdit, Ui};
 
 pub fn draw_right_column(app: &mut MyApp, ui: &mut Ui) {
     ui.vertical(|ui| {

@@ -1,12 +1,12 @@
 use crate::drawing::{draw_left_column, draw_right_column};
-use crate::load_bv::load_bv;
-use crate::pk6::Pk6;
-use crate::pokemon_image::PokemonImage;
-use eframe::egui::{vec2, CentralPanel, Context, ScrollArea, Sense, TextEdit, Vec2, Visuals};
+
+
+
+use eframe::egui::{CentralPanel, Context, Visuals};
 use eframe::{egui, App, CreationContext, Frame};
 use egui_extras::RetainedImage;
-use std::fs::File;
-use std::io::Read;
+
+
 
 fn setup_custom_fonts(ctx: &Context) {
     // Start with the default fonts (we will be adding to them rather than replacing them).
