@@ -13,3 +13,4 @@ rfd = "0.8.2"
 time = "0.3.9"
 lazy_static = "1.4.0"
 no_std_io = {git = "https://github.com/zaksabeast/no_std_io.git"}
+pkhex_rs = { git = "https://github.com/SteveCookTU/pkhex_rs.git", rev = "8b3a90c" }

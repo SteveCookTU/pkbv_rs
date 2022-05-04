@@ -1,6 +1,7 @@
 use crate::pk6::Pk6;
 use crate::util;
 use std::fmt::{Display, Formatter};
+use pkhex_rs::{PK6, Pkm};
 use time::{Date, Month, PrimitiveDateTime, Time};
 
 #[derive(Clone)]
@@ -99,7 +100,7 @@ impl Bv6 {
         for p in 0..6 {
             let mut offset = start + (0x104 * ((t * 6) + p));
             offset += 8 * (((t * 6) + p) / 6);
-            team.push(Pk6::new(self.data[offset..(offset + 0x104)].to_vec()));
+            team.push(Pk6(PK6::new(self.data[offset..(offset + 0x104)].to_vec())));
         }
         team
     }

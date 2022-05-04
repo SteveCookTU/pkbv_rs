@@ -10,6 +10,7 @@ use egui_extras::RetainedImage;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
+use pkhex_rs::SpeciesForm;
 
 pub fn load_bv(app: &mut MyApp, path: PathBuf) {
     let mut buf = vec![];
@@ -47,11 +48,11 @@ pub fn load_bv(app: &mut MyApp, path: PathBuf) {
 
 fn load_preview_pics(app: &mut MyApp, pkms: &Vec<Pk6>) {
     for i in 0..12 {
-        if pkms[i].species() == 0 || pkms[i].species() > 722 {
+        if pkms[i].0.get_species() == 0 || pkms[i].0.get_species() > 722 {
             continue;
         }
         let mut buf = vec![];
-        let mut file = File::open(format!("sprites/{}.png", pkms[i].species())).unwrap();
+        let mut file = File::open(format!("sprites/{}.png", pkms[i].0.get_species())).unwrap();
         file.read_to_end(&mut buf).unwrap();
         app.pkmn_images[i] =
             Some(RetainedImage::from_image_bytes(format!("pkm_{}", i), &buf).unwrap())
@@ -61,7 +62,7 @@ fn load_preview_pics(app: &mut MyApp, pkms: &Vec<Pk6>) {
 fn load_team_data(app: &mut MyApp, pkms: &Vec<Pk6>, trainers: &Vec<String>) {
     let mut team = 0;
     for (i, pkm) in pkms.iter().enumerate() {
-        if pkm.species() == 0 || pkm.species() >= 722 {
+        if pkm.0.get_species() == 0 || pkm.0.get_species() >= 722 {
             continue;
         }
         if i % 6 == 0 {

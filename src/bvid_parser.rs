@@ -4,10 +4,12 @@ use crate::move_target::MoveTarget;
 use crate::pk6::Pk6;
 use crate::rotate_direction::RotateDirection;
 use crate::turn_action_code::TurnActionCode;
-use crate::util::{MOVES, MOVE_DATA};
 use no_std_io::{Cursor, StreamContainer, StreamReader};
 use std::fmt::{Display, Formatter};
 use std::io::BufReader;
+use pkhex_rs::game_strings::MOVES_EN;
+use pkhex_rs::LangNick;
+use crate::util::MOVE_DATA;
 
 pub struct BVidParser {
     turn: u32,
@@ -45,7 +47,7 @@ impl BVidParser {
         match style {
             BattleStyle::Single => {
                 for (i, trainer) in self.trainers.iter().enumerate().take(2) {
-                    lines.push(format!("{} leads {}", trainer, self.teams[i][0].nickname()));
+                    lines.push(format!("{} leads {}", trainer, self.teams[i][0].0.get_nickname()));
                 }
             }
             BattleStyle::Double => {
@@ -53,8 +55,8 @@ impl BVidParser {
                     lines.push(format!(
                         "{} leads {} and {}",
                         trainer,
-                        self.teams[i][0].nickname(),
-                        self.teams[i][1].nickname()
+                        self.teams[i][0].0.get_nickname(),
+                        self.teams[i][1].0.get_nickname()
                     ));
                 }
             }
@@ -63,15 +65,15 @@ impl BVidParser {
                     lines.push(format!(
                         "{} leads {}, {} and {}",
                         trainer,
-                        self.teams[i][0].nickname(),
-                        self.teams[i][1].nickname(),
-                        self.teams[i][2].nickname()
+                        self.teams[i][0].0.get_nickname(),
+                        self.teams[i][1].0.get_nickname(),
+                        self.teams[i][2].0.get_nickname()
                     ));
                 }
             }
             _ => {
                 for (i, trainer) in self.trainers.iter().enumerate() {
-                    lines.push(format!("{} leads {}", trainer, self.teams[i][0].nickname()));
+                    lines.push(format!("{} leads {}", trainer, self.teams[i][0].0.get_nickname()));
                 }
             }
         }
@@ -148,14 +150,14 @@ impl BVidParser {
                         parse = format!(
                             "{}Out: {}, In: Nothing",
                             parse,
-                            self.teams[player as usize][slot_out as usize].nickname()
+                            self.teams[player as usize][slot_out as usize].0.get_nickname()
                         );
                     } else {
                         parse = format!(
                             "{}Out: {}, In: {}",
                             parse,
-                            self.teams[player as usize][slot_out as usize].nickname(),
-                            self.teams[player as usize][slot_in as usize].nickname()
+                            self.teams[player as usize][slot_out as usize].0.get_nickname(),
+                            self.teams[player as usize][slot_in as usize].0.get_nickname()
                         );
                         let t1 = self.teams[player as usize][slot_out as usize].clone();
                         self.teams[player as usize][slot_out as usize] =
@@ -164,7 +166,7 @@ impl BVidParser {
                     }
                 }
                 6 => {
-                    let cur_active = self.teams[player as usize][0].nickname();
+                    let cur_active = self.teams[player as usize][0].0.get_nickname();
                     for _ in 0..targeting {
                         let t0 = self.teams[player as usize][0].clone();
                         let t1 = self.teams[player as usize][1].clone();
@@ -174,7 +176,7 @@ impl BVidParser {
                         self.teams[player as usize][1] = t2;
                         self.teams[player as usize][2] = t0;
                     }
-                    let now_active = self.teams[player as usize][0].nickname();
+                    let now_active = self.teams[player as usize][0].0.get_nickname();
                     parse = format!("{}Rotates Out: {}, In: {}", parse, cur_active, now_active);
                 }
                 _ => {
@@ -219,8 +221,8 @@ impl BVidParser {
                         "{}{}: {} uses {} @ {}{}",
                         parse,
                         action,
-                        self.teams[player as usize][user].nickname(),
-                        MOVES[move_val as usize],
+                        self.teams[player as usize][user].0.get_nickname(),
+                        MOVES_EN[move_val as usize],
                         target,
                         {
                             if data[3 + (4 * i)] > 0 {
@@ -240,8 +242,8 @@ impl BVidParser {
                     parse = format!(
                         "{}Out: {}, In: {}",
                         parse,
-                        self.teams[player as usize][slot_out as usize].nickname(),
-                        self.teams[player as usize][slot_in as usize].nickname()
+                        self.teams[player as usize][slot_out as usize].0.get_nickname(),
+                        self.teams[player as usize][slot_in as usize].0.get_nickname()
                     );
                     let t1 = self.teams[player as usize][slot_out as usize].clone();
                     self.teams[player as usize][slot_out as usize] =
@@ -250,7 +252,7 @@ impl BVidParser {
                 }
                 TurnActionCode::Rotate => {
                     let rot = RotateDirection::from(targeting).to_string();
-                    let cur_in = self.teams[player as usize][user].nickname();
+                    let cur_in = self.teams[player as usize][user].0.get_nickname();
                     for _ in 0..targeting {
                         let t0 = self.teams[player as usize][0].clone();
                         let t1 = self.teams[player as usize][1].clone();
@@ -266,7 +268,7 @@ impl BVidParser {
                         action,
                         cur_in,
                         rot,
-                        self.teams[player as usize][user].nickname()
+                        self.teams[player as usize][user].0.get_nickname()
                     );
                     user += 1;
                 }

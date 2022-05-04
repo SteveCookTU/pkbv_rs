@@ -6,7 +6,6 @@ mod drawing;
 mod load_bv;
 mod move_target;
 pub mod my_app;
-pub mod personal_table;
 mod pk6;
 mod pokemon_image;
 mod rotate_direction;
